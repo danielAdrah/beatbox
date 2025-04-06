@@ -1,8 +1,14 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:beatbox/common_widgets/gradient_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../common_widgets/setting_Cell.dart';
 import '../common_widgets/setting_tile.dart';
+import '../themes/bloc/theme_bloc.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -18,6 +24,12 @@ class _SettingsViewState extends State<SettingsView> {
     CupertinoIcons.waveform,
     CupertinoIcons.heart
   ];
+  List<IconData> icons2 = [
+    CupertinoIcons.sun_min,
+    CupertinoIcons.music_note,
+    CupertinoIcons.waveform,
+    CupertinoIcons.heart
+  ];
   List<String> titles = ["Theme", "Ringtone", "Equalizer", "Favorite"];
   List<String> subTitles = [
     "Dark/Light",
@@ -27,11 +39,33 @@ class _SettingsViewState extends State<SettingsView> {
   ];
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDarkMode = theme.brightness == Brightness.dark;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.surface),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        automaticallyImplyLeading: false,
+        leading: FadeInLeft(
+          delay: const Duration(milliseconds: 600),
+          curve: Curves.linearToEaseOut,
+          child: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: const GradientIcon(
+              icon: Icons.arrow_back_ios,
+              size: 25,
+              gradient: LinearGradient(colors: [
+                Color(0xFFda549a),
+                Color(0xFFec8572),
+              ]),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -52,72 +86,86 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                   itemCount: 4,
                   itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        if (index == 0) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              padding:const EdgeInsets.symmetric(
-                                  vertical: 50, horizontal: 25),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30)),
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .onInverseSurface,
-                              content: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(
-                                    "Dark Theme :",
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .inverseSurface),
-                                  ),
-                                  CupertinoSwitch(
-                                      value: false, onChanged: (bool val) {}),
-                                ],
+                    if (index % 2 == 0) {
+                      return FadeInLeft(
+                        delay: const Duration(milliseconds: 600),
+                        curve: Curves.linearToEaseOut,
+                        child: BlocBuilder<ThemeBloc, ThemeData>(
+                          builder: (context, theme) {
+                            return InkWell(
+                              onTap: () {
+                                if (index == 0) {
+                                  context
+                                      .read<ThemeBloc>()
+                                      .add(SwitchThemeEvent());
+                                }
+                              },
+                              child: SettingCell(
+                                icon: isDarkMode ? icons[index] : icons2[index],
+                                title: titles[index],
+                                subTitle: subTitles[index],
                               ),
-                            ),
-                          );
-                        }
-                      },
-                      child: SettingCell(
-                        icon: icons[index],
-                        title: titles[index],
-                        subTitle: subTitles[index],
-                      ),
-                    );
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      return FadeInRight(
+                        delay: const Duration(milliseconds: 600),
+                        curve: Curves.linearToEaseOut,
+                        child: BlocBuilder<ThemeBloc, ThemeData>(
+                          builder: (context, theme) {
+                            return InkWell(
+                              onTap: () {
+                                if (index == 0) {
+                                  context
+                                      .read<ThemeBloc>()
+                                      .add(SwitchThemeEvent());
+                                }
+                              },
+                              child: SettingCell(
+                                icon: isDarkMode ? icons[index] : icons2[index],
+                                title: titles[index],
+                                subTitle: subTitles[index],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
                   },
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width / 17),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: height / 29, horizontal: height / 50),
-                  width: width,
-                  // height: 100,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      SettingTile(
-                        icon: Icons.play_arrow_rounded,
-                        title: "Playing Time",
-                        subTitle: "295h",
-                      ),
-                      SizedBox(height: height / 30),
-                      SettingTile(
-                        icon: Icons.visibility_off,
-                        title: "Hidden Files",
-                        subTitle: "42",
-                        // size: 30,
-                      ),
-                    ],
+                child: FadeInLeft(
+                  delay: const Duration(milliseconds: 700),
+                  curve: Curves.linearToEaseOut,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: height / 29, horizontal: height / 50),
+                    width: width,
+                    // height: 100,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        SettingTile(
+                          icon: Icons.play_arrow_rounded,
+                          title: "Playing Time",
+                          subTitle: "295h",
+                        ),
+                        SizedBox(height: height / 30),
+                        SettingTile(
+                          icon: Icons.visibility_off,
+                          title: "Hidden Files",
+                          subTitle: "42",
+                          // size: 30,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -125,37 +173,41 @@ class _SettingsViewState extends State<SettingsView> {
               const SizedBox(height: 25),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: width / 17),
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                      vertical: height / 29, horizontal: height / 50),
-                  width: width,
-                  // height: 100,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onInverseSurface,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    children: [
-                      SettingTile(
-                        icon: CupertinoIcons.text_bubble,
-                        title: "Rate Us",
-                        subTitle: "",
-                      ),
-                      SizedBox(height: height / 30),
-                      SettingTile(
-                        icon: Icons.security_outlined,
-                        title: "Privacy Policy",
-                        subTitle: "",
-                        // size: 30,
-                      ),
-                      SizedBox(height: height / 30),
-                      SettingTile(
-                        icon: Icons.info_outline,
-                        title: "About",
-                        subTitle: "",
-                        // size: 30,
-                      ),
-                    ],
+                child: FadeInRight(
+                  delay: const Duration(milliseconds: 700),
+                  curve: Curves.linearToEaseOut,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        vertical: height / 29, horizontal: height / 50),
+                    width: width,
+                    // height: 100,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.onInverseSurface,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      children: [
+                        SettingTile(
+                          icon: CupertinoIcons.text_bubble,
+                          title: "Rate Us",
+                          subTitle: "",
+                        ),
+                        SizedBox(height: height / 30),
+                        SettingTile(
+                          icon: Icons.security_outlined,
+                          title: "Privacy Policy",
+                          subTitle: "",
+                          // size: 30,
+                        ),
+                        SizedBox(height: height / 30),
+                        SettingTile(
+                          icon: Icons.info_outline,
+                          title: "About",
+                          subTitle: "",
+                          // size: 30,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

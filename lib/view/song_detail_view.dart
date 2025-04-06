@@ -62,7 +62,7 @@ class _SongDetailViewState extends State<SongDetailView> {
                       audioPlayer.stop();
                       Get.back();
                     },
-                    icon:const GradientIcon(
+                    icon: const GradientIcon(
                       icon: Icons.arrow_back_ios,
                       gradient: LinearGradient(colors: [
                         Color(0xFFda549a),
@@ -88,9 +88,12 @@ class _SongDetailViewState extends State<SongDetailView> {
                       )
                     ],
                     borderRadius: BorderRadius.circular(20),
-                    image: DecorationImage(
-                        image: AssetImage(widget.img), fit: BoxFit.fill),
+                    // image: DecorationImage(
+                    //     image: AssetImage(widget.img), fit: BoxFit.fill),
                   ),
+                  child: Hero(
+                      tag: widget.img,
+                      child: Image.asset(widget.img, fit: BoxFit.fill)),
                 ),
               ),
               const SizedBox(height: 25),

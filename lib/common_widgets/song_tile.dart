@@ -31,9 +31,12 @@ class SongTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage(img),
+            Hero(
+              tag: img,
+              child: CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage(img),
+              ),
             ),
             const SizedBox(width: 15),
             Column(

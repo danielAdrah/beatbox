@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,19 +22,23 @@ class _MainMusicTabState extends State<MainMusicTab> {
       itemCount: widget.books.length,
       itemBuilder: (context, index) {
         var song = widget.books[index];
-        return SongTile(
-          onTap: () {
-            Get.to(() => SongDetailView(
-                  img: song['img'],
-                  name: song['title'],
-                  artist: song['text'],
-                  path: song['audio'],
-                ));
-          },
-          img: song['img'],
-          rate: "${song['rating']}",
-          title: song['title'],
-          artist: song['text'],
+        return FadeInLeft(
+          delay: const Duration(milliseconds: 800),
+          curve: Curves.easeInOut,
+          child: SongTile(
+            onTap: () {
+              Get.to(() => SongDetailView(
+                    img: song['img'],
+                    name: song['title'],
+                    artist: song['text'],
+                    path: song['audio'],
+                  ));
+            },
+            img: song['img'],
+            rate: "${song['rating']}",
+            title: song['title'],
+            artist: song['text'],
+          ),
         );
       },
     );

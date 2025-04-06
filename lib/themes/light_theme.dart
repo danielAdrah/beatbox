@@ -5,7 +5,7 @@ ThemeData lightMode = ThemeData(
     onInverseSurface: Color(0xFFfafafc),
     surface: Color.fromARGB(255, 243, 242, 242),
     // primary: Color(0xFFFF6F61),
-    primary: Color(0xFF03A9F4),
+    primary: Color(0xffD9519D),
     inversePrimary: Colors.black,
     inverseSurface: Color.fromARGB(255, 92, 90, 90),
     onSecondary: Colors.white,

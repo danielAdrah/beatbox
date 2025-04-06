@@ -161,14 +161,15 @@ class _AudioFileState extends State<AudioFile> {
           ],
         ),
         IconButton(
-          onPressed: () {},
-          icon: Image.asset(
-            "assets/img/loop.png",
-            width: 20,
-            height: 20,
-            color: Colors.grey,
-          ),
-        ),
+            onPressed: () {},
+            icon: Icon(Icons.share, size: 25, color: Colors.grey)
+            // Image.asset(
+            //   "assets/img/loop.png",
+            //   width: 20,
+            //   height: 20,
+            //   color: Colors.grey,
+            // ),
+            ),
       ],
     );
   }

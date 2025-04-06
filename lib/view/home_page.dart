@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:beatbox/view/artist_tab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,75 +68,84 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: width / 35),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 80,
-                            height: 30,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage("assets/img/logo.png"),
-                                  fit: BoxFit.cover),
+                  child: FadeInDown(
+                    delay: const Duration(milliseconds: 800),
+                    curve: Curves.easeInOutCirc,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 80,
+                              height: 30,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("assets/img/logo.png"),
+                                    fit: BoxFit.cover),
+                              ),
                             ),
-                          ),
-                          const GradientText(
-                            "BeatBox",
-                            gradient: LinearGradient(colors: [
-                              Color(0xFFda549a),
-                              Color(0xFFec8572),
-                            ]),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 20),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const GradientIcon(
-                              icon: Icons.search,
+                            const GradientText(
+                              "BeatBox",
                               gradient: LinearGradient(colors: [
                                 Color(0xFFda549a),
                                 Color(0xFFec8572),
                               ]),
-                              size: 30,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 20),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              // Get.to(const SettingsView());
-                              Get.to(() => const SettingsView());
-                            },
-                            child: const GradientIcon(
-                              icon: Icons.settings,
-                              gradient: LinearGradient(colors: [
-                                Color(0xFFda549a),
-                                Color(0xFFec8572),
-                              ]),
-                              size: 30,
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const GradientIcon(
+                                icon: Icons.search,
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFFda549a),
+                                  Color(0xFFec8572),
+                                ]),
+                                size: 30,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                            InkWell(
+                              onTap: () {
+                                // Get.to(const SettingsView());
+                                Get.to(() => const SettingsView());
+                              },
+                              child: const GradientIcon(
+                                icon: Icons.settings,
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFFda549a),
+                                  Color(0xFFec8572),
+                                ]),
+                                size: 30,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                TabBar(
-                  labelColor: Theme.of(context).colorScheme.primary,
-                  unselectedLabelColor:
-                      Theme.of(context).colorScheme.inverseSurface,
-                  indicatorColor: Theme.of(context).colorScheme.primary,
-                  dividerColor: Theme.of(context).colorScheme.onInverseSurface,
-                  isScrollable: false,
-                  tabs: headers.map<Widget>((e) {
-                    return Tab(
-                      child: Text(e),
-                    );
-                  }).toList(),
+                FadeInDown(
+                  delay: const Duration(milliseconds: 700),
+                  curve: Curves.easeOut,
+                  child: TabBar(
+                    labelColor: const Color(0xffD9519D),
+                    unselectedLabelColor:
+                        Theme.of(context).colorScheme.inverseSurface,
+                    indicatorColor: const Color(0xffD9519D),
+                    dividerColor:
+                        Theme.of(context).colorScheme.onInverseSurface,
+                    isScrollable: false,
+                    tabs: headers.map<Widget>((e) {
+                      return Tab(
+                        child: Text(e),
+                      );
+                    }).toList(),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 Expanded(

@@ -2,6 +2,7 @@
 
 import 'dart:ui';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,24 +40,15 @@ class _ArtistDetailViewState extends State<ArtistDetailView>
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          icon: GradientIcon(
-            icon: Icons.arrow_back_ios,
-            gradient: LinearGradient(colors: [
-              Color(0xFFda549a),
-              Color(0xFFec8572),
-            ]),
-            size: 25,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
+        leading: FadeInLeft(
+          delay: const Duration(milliseconds: 600),
+          curve: Curves.easeIn,
+          child: IconButton(
+            onPressed: () {
+              Get.back();
+            },
             icon: GradientIcon(
-              icon: Icons.search,
+              icon: Icons.arrow_back_ios,
               gradient: LinearGradient(colors: [
                 Color(0xFFda549a),
                 Color(0xFFec8572),
@@ -64,21 +56,37 @@ class _ArtistDetailViewState extends State<ArtistDetailView>
               size: 25,
             ),
           ),
+        ),
+        actions: [
+          FadeInRight(
+            delay: const Duration(milliseconds: 600),
+            curve: Curves.easeIn,
+            child: IconButton(
+              onPressed: () {},
+              icon: GradientIcon(
+                icon: Icons.search,
+                gradient: LinearGradient(colors: [
+                  Color(0xFFda549a),
+                  Color(0xFFec8572),
+                ]),
+                size: 25,
+              ),
+            ),
+          ),
         ],
-        title: GradientText("Details",
-            gradient: LinearGradient(colors: [
-              Color(0xFFda549a),
-              Color(0xFFec8572),
-            ]),
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.w700)),
-        //  Text("Details",
-        // style: TextStyle(
-        //     color: Colors.white,
-        //     fontSize: 22,
-        //     fontWeight: FontWeight.w700)),
+        title: FadeInDown(
+          delay: const Duration(milliseconds: 600),
+          curve: Curves.easeIn,
+          child: GradientText("Details",
+              gradient: LinearGradient(colors: [
+                Color(0xFFda549a),
+                Color(0xFFec8572),
+              ]),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.w700)),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -88,15 +96,19 @@ class _ArtistDetailViewState extends State<ArtistDetailView>
               Stack(
                 alignment: Alignment.center,
                 children: [
-                  ClipRect(
-                    child: ImageFiltered(
-                      imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                      child: Image.asset(
-                        widget.imgUrl,
-                        // "assets/img/artitst_detail_top.png",
-                        width: double.maxFinite,
-                        height: media.width * 0.5,
-                        fit: BoxFit.cover,
+                  FadeInDown(
+                    delay: const Duration(milliseconds: 700),
+                    curve: Curves.linearToEaseOut,
+                    child: ClipRect(
+                      child: ImageFiltered(
+                        imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                        child: Image.asset(
+                          widget.imgUrl,
+                          // "assets/img/artitst_detail_top.png",
+                          width: double.maxFinite,
+                          height: media.width * 0.5,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -107,99 +119,115 @@ class _ArtistDetailViewState extends State<ArtistDetailView>
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Image.asset(
-                              // "assets/img/alb_1.png",
-                              widget.imgUrl,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
+                            FadeInLeft(
+                              delay: const Duration(milliseconds: 650),
+                              curve: Curves.linearToEaseOut,
+                              child: Hero(
+                                tag: widget.imgUrl,
+                                child: Image.asset(
+                                  // "assets/img/alb_1.png",
+                                  widget.imgUrl,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                             SizedBox(width: 15),
                             Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    // "History",
-                                    widget.name,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(height: 7),
-                                  Text(
-                                    "${widget.album} . ${widget.song}",
-                                    style: TextStyle(
-                                        color: Colors.white.withOpacity(0.74),
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                  SizedBox(height: 7),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                              borderRadius: BorderRadius.circular(18),
-                              onTap: () {},
-                              child: Container(
-                                width: 80,
-                                height: 35,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xffD9519D),
-                                        Color(0xffED8770)
-                                      ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.center),
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                              child: FadeInDown(
+                                delay: const Duration(milliseconds: 660),
+                                curve: Curves.linearToEaseOut,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // SizedBox(width: 8),
                                     Text(
-                                      "Follow",
+                                      // "History",
+                                      widget.name,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(height: 7),
+                                    Text(
+                                      "${widget.album} . ${widget.song}",
                                       style: TextStyle(
                                           color: Colors.white.withOpacity(0.74),
                                           fontSize: 12,
                                           fontWeight: FontWeight.w500),
                                     ),
+                                    SizedBox(height: 7),
                                   ],
                                 ),
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  "125,035",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  "Followers",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
+                        ),
+                        SizedBox(height: 15),
+                        FadeInLeft(
+                          delay: const Duration(milliseconds: 600),
+                          curve: Curves.linearToEaseOut,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                borderRadius: BorderRadius.circular(18),
+                                onTap: () {},
+                                child: Container(
+                                  width: 80,
+                                  height: 35,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        colors: [
+                                          Color(0xffD9519D),
+                                          Color(0xffED8770)
+                                        ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.center),
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      // SizedBox(width: 8),
+                                      Text(
+                                        "Follow",
+                                        style: TextStyle(
+                                            color:
+                                                Colors.white.withOpacity(0.74),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "125,035",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    "Followers",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -220,9 +248,13 @@ class _ArtistDetailViewState extends State<ArtistDetailView>
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       var mObj = artistController.albumsArr[index];
-                      return ArtistAlbumCell(
-                        mObj: mObj,
-                        width: 1,
+                      return ZoomIn(
+                        delay: const Duration(milliseconds: 700),
+                        curve: Curves.linearToEaseOut,
+                        child: ArtistAlbumCell(
+                          mObj: mObj,
+                          width: 1,
+                        ),
                       );
                     }),
               ),
@@ -238,11 +270,15 @@ class _ArtistDetailViewState extends State<ArtistDetailView>
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     var mObj = artistController.playedArr[index];
-                    return AlbumSongRow(
-                      sObj: mObj,
-                      onPress: () {},
-                      onpressPlay: () {},
-                      isPlay: index == 0,
+                    return FadeInLeft(
+                      delay: const Duration(milliseconds: 750),
+                      curve: Curves.linearToEaseOut,
+                      child: AlbumSongRow(
+                        sObj: mObj,
+                        onPress: () {},
+                        onpressPlay: () {},
+                        isPlay: index == 0,
+                      ),
                     );
                   }),
             ],

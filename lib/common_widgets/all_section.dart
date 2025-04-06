@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 class AllSection extends StatelessWidget {
@@ -19,21 +20,29 @@ class AllSection extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.inverseSurface,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600),
+            child: FadeInLeft(
+              delay: Duration(milliseconds: 600),
+              curve: Curves.easeInOut,
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: Theme.of(context).colorScheme.inverseSurface,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600),
+              ),
             ),
           ),
-          TextButton(
-            onPressed: onPress,
-            child: Text(
-              buttonTitle,
-              style: TextStyle(
-                color:Theme.of(context).colorScheme.inverseSurface,
-                fontSize: 12,
+          FadeInRight(
+            delay: Duration(milliseconds: 600),
+            curve: Curves.easeInOut,
+            child: TextButton(
+              onPressed: onPress,
+              child: Text(
+                buttonTitle,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.inverseSurface,
+                  fontSize: 12,
+                ),
               ),
             ),
           )

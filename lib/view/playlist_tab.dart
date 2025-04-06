@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_local_variable
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,24 +23,28 @@ class _PlaylistTabState extends State<PlaylistTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: Center(
-          child: GradientIcon(
-            icon: Icons.add,
-            gradient: LinearGradient(colors: [
-              Color(0xFFda549a),
-              Color(0xFFec8572),
-            ]),
-            size: 35,
+      floatingActionButton: ZoomIn(
+        delay: const Duration(milliseconds: 700),
+        curve: Curves.easeInOut,
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          child: Center(
+            child: GradientIcon(
+              icon: Icons.add,
+              gradient: LinearGradient(colors: [
+                Color(0xFFda549a),
+                Color(0xFFec8572),
+              ]),
+              size: 35,
+            ),
+            //  Icon(Icons.add,
+            //     color: Theme.of(context).colorScheme.primary, size: 35),
           ),
-          //  Icon(Icons.add,
-          //     color: Theme.of(context).colorScheme.primary, size: 35),
         ),
       ),
-      
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,10 +66,14 @@ class _PlaylistTabState extends State<PlaylistTab> {
                 itemCount: playListController.playlistArr.length,
                 itemBuilder: (context, index) {
                   var sObj = playListController.playlistArr[index];
-                  return PlayListCell(
-                    onPress: () {},
-                    onPressPlay: () {},
-                    sObj: sObj,
+                  return ZoomIn(
+                    delay: Duration(milliseconds: 600),
+                    curve: Curves.linearToEaseOut,
+                    child: PlayListCell(
+                      onPress: () {},
+                      onPressPlay: () {},
+                      sObj: sObj,
+                    ),
                   );
                 },
               ),
@@ -84,9 +93,13 @@ class _PlaylistTabState extends State<PlaylistTab> {
                     return Container(
                       // padding: const EdgeInsets.symmetric(horizontal: 5),
                       margin: EdgeInsets.symmetric(vertical: 10),
-                      child: PlaylistTile(
-                        onPress: () {},
-                        sObj: sObj,
+                      child: ZoomIn(
+                        delay: Duration(milliseconds: 700),
+                        curve: Curves.linearToEaseOut,
+                        child: PlaylistTile(
+                          onPress: () {},
+                          sObj: sObj,
+                        ),
                       ),
                     );
                   },
