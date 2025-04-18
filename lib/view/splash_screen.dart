@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 
 import '../common_widgets/gradient_text.dart';
 import '../controllers/splash_screen_controller.dart';
+import '../services/song_handler.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({super.key, required this.songHandler});
+  final SongHandler songHandler;
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -17,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    splashController.loadView();
+    splashController.loadView(widget.songHandler);
   }
 
   @override

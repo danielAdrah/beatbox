@@ -3,15 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../services/song_handler.dart';
 import '../view/home_page.dart';
 
 class SplashScreenController extends GetxController {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   //=====
-  void loadView() async {
+  void loadView( SongHandler songHandler) async {
     await Future.delayed(Duration(seconds: 3));
-    Get.to(() => HomePage());
+    Get.to(() => HomePage(songHandler: songHandler,));
   }
 
   //===

@@ -2,13 +2,12 @@ import 'package:animate_do/animate_do.dart';
 import 'package:beatbox/common_widgets/gradient_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 import '../common_widgets/setting_Cell.dart';
 import '../common_widgets/setting_tile.dart';
-import '../themes/bloc/theme_bloc.dart';
+import '../themes/theme_provider.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -39,8 +38,6 @@ class _SettingsViewState extends State<SettingsView> {
   ];
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDarkMode = theme.brightness == Brightness.dark;
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -90,46 +87,45 @@ class _SettingsViewState extends State<SettingsView> {
                       return FadeInLeft(
                         delay: const Duration(milliseconds: 600),
                         curve: Curves.linearToEaseOut,
-                        child: BlocBuilder<ThemeBloc, ThemeData>(
-                          builder: (context, theme) {
-                            return InkWell(
-                              onTap: () {
-                                if (index == 0) {
-                                  context
-                                      .read<ThemeBloc>()
-                                      .add(SwitchThemeEvent());
-                                }
-                              },
-                              child: SettingCell(
-                                icon: isDarkMode ? icons[index] : icons2[index],
-                                title: titles[index],
-                                subTitle: subTitles[index],
-                              ),
-                            );
+                        child: InkWell(
+                          onTap: () {
+                            if (index == 0) {
+                              Provider.of<ThemeProvider>(context, listen: false)
+                                  .toggleTheme();
+                            }
                           },
+                          child: SettingCell(
+                            icon: Provider.of<ThemeProvider>(context,
+                                        listen: false)
+                                    .isDarkMode
+                                ? icons[index]
+                                : icons2[index],
+                            // isDarkMode ? icons[index] : icons2[index],
+                            title: titles[index],
+                            subTitle: subTitles[index],
+                          ),
                         ),
                       );
                     } else {
                       return FadeInRight(
                         delay: const Duration(milliseconds: 600),
                         curve: Curves.linearToEaseOut,
-                        child: BlocBuilder<ThemeBloc, ThemeData>(
-                          builder: (context, theme) {
-                            return InkWell(
-                              onTap: () {
-                                if (index == 0) {
-                                  context
-                                      .read<ThemeBloc>()
-                                      .add(SwitchThemeEvent());
-                                }
-                              },
-                              child: SettingCell(
-                                icon: isDarkMode ? icons[index] : icons2[index],
-                                title: titles[index],
-                                subTitle: subTitles[index],
-                              ),
-                            );
+                        child: InkWell(
+                          onTap: () {
+                            if (index == 0) {
+                              Provider.of<ThemeProvider>(context, listen: false)
+                                  .toggleTheme();
+                            }
                           },
+                          child: SettingCell(
+                            icon: Provider.of<ThemeProvider>(context,
+                                        listen: false)
+                                    .isDarkMode
+                                ? icons[index]
+                                : icons2[index],
+                            title: titles[index],
+                            subTitle: subTitles[index],
+                          ),
                         ),
                       );
                     }

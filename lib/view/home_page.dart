@@ -8,13 +8,16 @@ import 'package:get/get.dart';
 
 import '../common_widgets/gradient_icon.dart';
 import '../common_widgets/gradient_text.dart';
+import '../services/song_handler.dart';
 import 'genres_tab.dart';
-import 'main_music_tab.dart';
 import 'playlist_tab.dart';
 import 'settings_view.dart';
+import 'search_screen.dart';
+import 'songs_screen.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.songHandler});
+  final SongHandler songHandler;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -99,7 +102,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         Row(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () => Get.to(
+                                () => SearchScreen(
+                                    songHandler: widget.songHandler),
+                                duration: const Duration(milliseconds: 700),
+                                transition: Transition.rightToLeft,
+                              ),
                               icon: const GradientIcon(
                                 icon: Icons.search,
                                 gradient: LinearGradient(colors: [
@@ -151,9 +159,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      MainMusicTab(
-                        books: books,
-                      ),
+                      SongsScreen(songHandler: widget.songHandler),
                       const PlaylistTab(),
                       const ArtistTab(),
                       const GenresTab(),
