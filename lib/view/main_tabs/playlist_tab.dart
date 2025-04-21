@@ -4,11 +4,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../common_widgets/all_section.dart';
-import '../common_widgets/gradient_icon.dart';
-import '../common_widgets/playlist_cell.dart';
-import '../common_widgets/playlist_tile.dart';
-import '../controllers/playlist_controller.dart';
+import '../../common_widgets/all_section.dart';
+import '../../common_widgets/gradient_icon.dart';
+import '../../common_widgets/playlist_cell.dart';
+import '../../common_widgets/playlist_tile.dart';
+import '../../controllers/playlist_controller.dart';
 
 class PlaylistTab extends StatefulWidget {
   const PlaylistTab({super.key});

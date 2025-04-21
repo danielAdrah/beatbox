@@ -21,6 +21,7 @@ class SongHandler extends BaseAudioHandler with QueueHandler, SeekHandler {
   }
 
   // Broadcast the current playback state based on the received PlaybackEvent
+  //this for the notification 
   void _broadcastState(PlaybackEvent event) {
     playbackState.add(playbackState.value.copyWith(
       controls: [

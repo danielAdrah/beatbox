@@ -1,19 +1,15 @@
-import 'dart:convert';
-
 import 'package:animate_do/animate_do.dart';
-import 'package:beatbox/view/artist_tab.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:beatbox/view/main_tabs/artist_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../common_widgets/gradient_icon.dart';
 import '../common_widgets/gradient_text.dart';
 import '../services/song_handler.dart';
-import 'genres_tab.dart';
-import 'playlist_tab.dart';
+import 'main_tabs/genres_tab.dart';
+import 'main_tabs/playlist_tab.dart';
 import 'settings_view.dart';
 import 'search_screen.dart';
-import 'songs_screen.dart';
+import 'main_tabs/songs_tab.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.songHandler});
@@ -24,36 +20,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  List popularSongs = [];
-  List books = [];
   List<String> headers = ["New", "PlayLists", "Artists", "Genres"];
   late ScrollController scrollCont;
   late TabController tabCont;
   int selectedIndex = 0;
   int currentTab = 0;
 
-  //============
-  readData() {
-    DefaultAssetBundle.of(context)
-        .loadString("assets/json/popularBooks.json")
-        .then((s) {
-      setState(() {
-        popularSongs = json.decode(s);
-      });
-    });
-    DefaultAssetBundle.of(context)
-        .loadString("assets/json/books.json")
-        .then((s) {
-      setState(() {
-        books = json.decode(s);
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    readData();
+
     tabCont = TabController(length: 3, vsync: this);
     scrollCont = ScrollController();
   }
@@ -159,7 +135,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      SongsScreen(songHandler: widget.songHandler),
+                      SongsTab(songHandler: widget.songHandler),
                       const PlaylistTab(),
                       const ArtistTab(),
                       const GenresTab(),

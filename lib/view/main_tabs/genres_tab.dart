@@ -4,9 +4,9 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../common_widgets/genre_tile.dart';
-import '../common_widgets/gradient_icon.dart';
-import '../controllers/genres_controller.dart';
+import '../../common_widgets/genre_tile.dart';
+import '../../common_widgets/gradient_icon.dart';
+import '../../controllers/genres_controller.dart';
 
 class GenresTab extends StatefulWidget {
   const GenresTab({super.key});

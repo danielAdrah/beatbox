@@ -21,6 +21,7 @@ Future<void> main() async {
       androidNotificationChannelName: 'beatbox',
       androidNotificationOngoing: true,
       androidShowNotificationBadge: true,
+
     ),
   );
   runApp(MultiProvider(
@@ -29,7 +30,7 @@ Future<void> main() async {
         create: (context) => SongsProvider()..loadSongs(_songHandler),
       ),
       ChangeNotifierProvider(
-         create: (context) => ThemeProvider(),
+        create: (context) => ThemeProvider(),
       ),
     ],
     child: const MyApp(),
@@ -46,34 +47,12 @@ class MyApp extends StatelessWidget {
       builder: (ColorScheme? light, ColorScheme? dark) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          // Configure the theme with light and dark color schemes
-          // theme: ThemeData(
-          //   colorScheme: light,
-          //   useMaterial3: true,
-          // ),
-          // darkTheme: ThemeData(
-          //   colorScheme: dark,
-          //   useMaterial3: true,
-          // ),
-          // darkTheme: darkMode,
-          theme:Provider.of<ThemeProvider>(context).themeData,
+          theme: Provider.of<ThemeProvider>(context).themeData,
           home: SplashScreen(songHandler: _songHandler),
         );
       },
     );
 
-    // BlocProvider(
-    //   create: (context) => ThemeBloc()..add(SetInitTheme()),
-    //   child: BlocBuilder<ThemeBloc, ThemeData>(
-    //     builder: (context, theme) {
-    //       return GetMaterialApp(
-    //         debugShowCheckedModeBanner: false,
-    //         theme: theme,
-    //         // darkTheme: darkMode,
-    //         home: SplashScreen(),
-    //       );
-    //     },
-    //   ),
-    // );
+   
   }
 }

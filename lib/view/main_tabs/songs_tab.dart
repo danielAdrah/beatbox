@@ -1,27 +1,28 @@
 // Import necessary packages and files
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import '../notifiers/songs_provider.dart';
-import '../services/song_handler.dart';
-import '../components/player_deck.dart';
-import '../components/songs_list.dart';
+import '../../notifiers/songs_provider.dart';
+import '../../services/song_handler.dart';
+import '../../components/player_deck.dart';
+import '../../components/songs_list.dart';
 
 // Define the HomeScreen class, a StatefulWidget
-class SongsScreen extends StatefulWidget {
+class SongsTab extends StatefulWidget {
   final SongHandler songHandler;
 
   // Constructor to receive a SongHandler instance
-  const SongsScreen({super.key, required this.songHandler});
+  const SongsTab({super.key, required this.songHandler});
 
   @override
-  State<SongsScreen> createState() => _SongsScreenState();
+  State<SongsTab> createState() => _SongsTabState();
 }
 
-// Define the state class for SongsScreen
-class _SongsScreenState extends State<SongsScreen> {
+// Define the state class for SongsTab
+class _SongsTabState extends State<SongsTab> {
   // Create an AutoScrollController for smooth scrolling
   final AutoScrollController _autoScrollController = AutoScrollController();
 
@@ -50,25 +51,13 @@ class _SongsScreenState extends State<SongsScreen> {
         builder: (context, songsProvider, _) {
           // Scaffold widget for the app structure
           return Scaffold(
-            // appBar: AppBar(
-            //   title: const Text("Beatbox"),
-            //   actions: [
-            //     // IconButton to navigate to the SearchScreen
-            //     IconButton(
-            //       onPressed: () => Get.to(
-            //         () => SearchScreen(songHandler: widget.songHandler),
-            //         duration: const Duration(milliseconds: 700),
-            //         transition: Transition.rightToLeft,
-            //       ),
-            //       icon: const Icon(
-            //         Icons.search_rounded,
-            //       ),
-            //     ),
-            //   ],
-            // ),
             body: songsProvider.isLoading
                 ? _buildLoadingIndicator() // Display a loading indicator while songs are loading
-                : _buildSongsList(songsProvider), // Display the list of songs
+                : FadeInLeft(
+                    curve: Curves.linearToEaseOut,
+                    duration: const Duration(milliseconds: 800),
+                    child: _buildSongsList(
+                        songsProvider)), // Display the list of songs
           );
         },
       ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 import '../services/song_handler.dart';
+import '../view/song_detail_view.dart';
 import 'play_pause_button.dart';
 import 'song_progress.dart';
 
@@ -19,6 +20,18 @@ class PlayerDeck extends StatelessWidget {
     required this.isLast,
     required this.onTap,
   });
+
+  void _navigateToSongDetails(BuildContext context, MediaItem playingSong) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => SongDetailView(
+                artworkUrl: playingSong.artUri,
+                playingSong: playingSong,
+                songHandler: songHandler,
+              )),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +55,11 @@ class PlayerDeck extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.0),
       ),
       elevation: isLast ? 0 : null,
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(4.0),
       child: Stack(
         children: [
           // If not the last item, show artwork
-          if (!isLast) _buildArtwork(playingSong),
+          if (!isLast) _buildArtwork(context, playingSong),
           // If not the last item, overlay the artwork with a semi-transparent container
           if (!isLast) _buildArtworkOverlay(),
           // Build the content of the card
@@ -57,8 +70,9 @@ class PlayerDeck extends StatelessWidget {
   }
 
   // Build the artwork widget
-  Widget _buildArtwork(MediaItem playingSong) {
+  Widget _buildArtwork(BuildContext context, MediaItem playingSong) {
     return Positioned.fill(
+      //======
       child: QueryArtworkWidget(
         // Set up artwork properties
         id: int.parse(playingSong.displayDescription!),
@@ -101,6 +115,7 @@ class PlayerDeck extends StatelessWidget {
   // Build the title section
   Widget _buildTitle(BuildContext context, MediaItem playingSong) {
     return ListTile(
+      contentPadding: EdgeInsets.all(8),
       onTap: () {
         // Handle tap on the title
         int index = songHandler.queue.value.indexOf(playingSong);
@@ -120,15 +135,21 @@ class PlayerDeck extends StatelessWidget {
                         .primaryContainer
                         .withOpacity(0.5),
               ),
-              child: QueryArtworkWidget(
-                // Artwork for the leading box
-                id: int.parse(playingSong.displayDescription!),
-                type: ArtworkType.AUDIO,
-                size: 500,
-                quality: 100,
-                artworkBorder: BorderRadius.circular(8.0),
-                errorBuilder: (p0, p1, p2) =>
-                    const Icon(Icons.music_note_rounded),
+              child: InkWell(
+                onTap: () => _navigateToSongDetails(context, playingSong),
+                child: Hero(
+                  tag: playingSong.displayDescription!,
+                  child: QueryArtworkWidget(
+                    // Artwork for the leading box
+                    id: int.parse(playingSong.displayDescription!),
+                    type: ArtworkType.AUDIO,
+                    size: 500,
+                    quality: 100,
+                    artworkBorder: BorderRadius.circular(8.0),
+                    errorBuilder: (p0, p1, p2) =>
+                        const Icon(Icons.music_note_rounded),
+                  ),
+                ),
               ),
             ),
       title: Text(
@@ -148,7 +169,7 @@ class PlayerDeck extends StatelessWidget {
           : SizedBox(
               // Trailing widget with song progress and play/pause button
               height: 50,
-              width: 50,
+              width: 90,
               child: _buildTrailingWidget(context, playingSong),
             ),
     );
@@ -156,35 +177,47 @@ class PlayerDeck extends StatelessWidget {
 
   // Build the trailing widget with song progress and play/pause button
   Widget _buildTrailingWidget(BuildContext context, MediaItem playingSong) {
-    return Stack(
+    return Row(
       children: [
-        StreamBuilder<Duration>(
-          stream: AudioService.position,
-          builder: (context, durationSnapshot) {
-            if (durationSnapshot.hasData) {
-              // Calculate and display song progress
-              double progress = durationSnapshot.data!.inMilliseconds /
-                  playingSong.duration!.inMilliseconds;
-              return Center(
-                child: CircularProgressIndicator(
-                  strokeCap: StrokeCap.round,
-                  strokeWidth: 3,
-                  backgroundColor: isLast
-                      ? Colors.transparent
-                      : Theme.of(context).hoverColor,
-                  value: progress,
-                ),
-              );
-            }
-            return const SizedBox.shrink();
-          },
+        Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            StreamBuilder<Duration>(
+              stream: AudioService.position,
+              builder: (context, durationSnapshot) {
+                if (durationSnapshot.hasData) {
+                  // Calculate and display song progress
+                  double progress = durationSnapshot.data!.inMilliseconds /
+                      playingSong.duration!.inMilliseconds;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      strokeCap: StrokeCap.round,
+                      strokeWidth: 3,
+                      backgroundColor: isLast
+                          ? Colors.transparent
+                          : Theme.of(context).hoverColor,
+                      value: progress,
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+            Center(
+              // Play/Pause button
+              child: PlayPauseButton(
+                size: 25,
+                songHandler: songHandler,
+              ),
+            ),
+          ],
         ),
-        Center(
-          // Play/Pause button
-          child: PlayPauseButton(
-            size: 30,
-            songHandler: songHandler,
-          ),
+        Expanded(
+          child: IconButton(
+              onPressed: () {
+                songHandler.skipToNext();
+              },
+              icon: const Icon(Icons.skip_next_rounded, size: 33)),
         ),
       ],
     );

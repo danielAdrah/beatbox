@@ -30,11 +30,11 @@ class ArtistTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            FadeInDown(
+            FadeInLeft(
               delay: const Duration(milliseconds: 800),
               curve: Curves.easeInOut,
               child: Hero(
-                tag:img,
+                tag: img,
                 child: CircleAvatar(
                   backgroundImage: AssetImage(img),
                   radius: 50,

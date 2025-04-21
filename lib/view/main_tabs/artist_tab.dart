@@ -2,8 +2,8 @@ import 'package:beatbox/controllers/artist_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../common_widgets/artist_tile.dart';
-import 'artist_detail_view.dart';
+import '../../common_widgets/artist_tile.dart';
+import '../artist_detail_view.dart';
 
 class ArtistTab extends StatefulWidget {
   const ArtistTab({super.key});
